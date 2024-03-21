@@ -55,11 +55,8 @@ class ConnectionHandler(paramiko.ServerInterface):
             except EOFError:
                 _logger.debug("Tried to close already closed channel")
 
-    def check_auth_publickey(self, username: str, key: paramiko.PKey) -> int:
-        return paramiko.AUTH_SUCCESSFUL
-
     def check_auth_password(self, username: str, password: str) -> int:
-        return paramiko.AUTH_SUCCESSFUL
+        return paramiko.AUTH_FAILED
 
     def check_channel_exec_request(
         self, channel: paramiko.Channel, command: bytes
@@ -73,4 +70,4 @@ class ConnectionHandler(paramiko.ServerInterface):
         return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
 
     def get_allowed_auths(self, username: str) -> str:
-        return "password,publickey"
+        return "password"
